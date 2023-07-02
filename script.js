@@ -20,26 +20,39 @@ $(function () {
     test every line with console.log 
     if messed up look up solutions
     repeat */
-  //select text box
-  const description = $('.description');
-  console.log(description[0]);
-  //select save button
-  const saveBtns = $('.saveBtn');
 
-  saveBtns.each(function() {
-  //save button evetn click 
+  // Select text box
+// const description = $('.description');
+
+// Select save buttons
+const saveBtns = $('.saveBtn');
+
+saveBtns.each(function() {
+  // Save button event click
   $(this).on("click", () => {
-    //target is the number associated with the description 
-    const target = $(this).data('target');
-    //this combines the class description with the number (target) 
-    const description = $('.description[data-target="' + target + '"]');
-    console.log(description);
-    //value is what is written in text box
+    // Value is equal to the description value
+    const description = $(this).siblings('.description');
     const value = description.val();
-    console.log(value);
-    value !== '' ? localStorage.setItem(target, value) : console.log('empty');
+    // Get the ID of the closest ancestor div
+    const storageID = $(this).closest('div').prop('id');
+    console.log(storageID);
+
+    // If value has text, set it in local storage
+    value !== '' ? localStorage.setItem(storageID, value) : console.log('empty');
   });
 });
+
+// function getItem() {
+//   // Get the ID of the closest ancestor div
+//   const storageID = $('.description').closest('div').prop('id');
+//   // Page is reloaded, retrieve the value from local storage
+//   var storedValue = localStorage.getItem(storageID);
+//   console.log(storedValue);
+//   $('.description').text(storedValue);
+// }
+
+// getItem();
+
 /*get description from local storage 
 description x. text = localstorage get item that matches x.
 find corresponding class based on local storage name
