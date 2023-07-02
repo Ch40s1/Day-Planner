@@ -3,7 +3,8 @@
 // in the html.
 let currentDayBox = $('#currentDay');
 let currentDay = dayjs();
-currentDayBox.text(currentDay.format("dddd, MMM DD"));
+let currentHour = dayjs().format("H");
+currentDayBox.text(currentDay.format("dddd, MMM DD " + currentHour + ":mm a"));
 // .text("hi!");
 
 
@@ -51,19 +52,23 @@ userText.each(function () {
   $(this).text(storedValue);
 });
 
-//  // Get the ID of the closest ancestor div
-//  const storageID = $('.description').closest('div').prop('id');
-//  // Page is reloaded, retrieve the value from local storage
-//  var storedValue = localStorage.getItem(storageID);
-//  console.log(storedValue);
-//  $('.description').text(storedValue);
-
   // TODO: Add code to apply the past, present, or future class to each time
+let timeSection = $('.time-block');
   // block by comparing the id to the current hour. HINTS: How can the id
   // attribute of each time-block be used to conditionally add or remove the
   // past, present, and future classes? How can Day.js be used to get the
   // current hour in 24-hour time?
   //
+timeSection.each(function(){
+  //set testing current hour
+  //get current id of timeSection
+   //if id < current hour
+   //then set class to past 
+   //else if id > current hour 
+   //then set class to future
+   //else
+   //set class to current
+});
   // TODO: Add code to get any user input that was saved in localStorage and set
   // the values of the corresponding textarea elements. HINT: How can the id
   // attribute of each time-block be used to do this?
