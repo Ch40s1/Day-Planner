@@ -22,7 +22,7 @@ $(function () {
     repeat */
 
   // Select text box
-// const description = $('.description');
+const userText = $('.description');
 
 // Select save buttons
 const saveBtns = $('.saveBtn');
@@ -30,7 +30,8 @@ const saveBtns = $('.saveBtn');
 saveBtns.each(function() {
   // Save button event click
   $(this).on("click", () => {
-    // Value is equal to the description value
+    // Value is equal to the description value. This refers to the button. 
+    //so essentially the buttons sibling or (description) is selected
     const description = $(this).siblings('.description');
     const value = description.val();
     // Get the ID of the closest ancestor div
@@ -42,38 +43,21 @@ saveBtns.each(function() {
   });
 });
 
-// function getItem() {
-//   // Get the ID of the closest ancestor div
-//   const storageID = $('.description').closest('div').prop('id');
-//   // Page is reloaded, retrieve the value from local storage
-//   var storedValue = localStorage.getItem(storageID);
-//   console.log(storedValue);
-//   $('.description').text(storedValue);
-// }
+userText.each(function () {
+  //figure out whats the current id of dexription box
+  let currentId = $(this).closest('div').prop('id');
+  // given the current id we should be able to get the stored value based on name of current id
+  let storedValue = localStorage.getItem(currentId);
+  $(this).text(storedValue);
+});
 
-// getItem();
+//  // Get the ID of the closest ancestor div
+//  const storageID = $('.description').closest('div').prop('id');
+//  // Page is reloaded, retrieve the value from local storage
+//  var storedValue = localStorage.getItem(storageID);
+//  console.log(storedValue);
+//  $('.description').text(storedValue);
 
-/*get description from local storage 
-description x. text = localstorage get item that matches x.
-find corresponding class based on local storage name
-write text to text area. */
-
-// console.log(localStorage.getItem('description1'));
-
-
-
-  // const saveBtns = $('.saveBtn');
-  // saveBtns.each(function() {
-  //   $(this).on("click", () => {
-  //     const value = description[0].value;
-  //     value !== '' ? localStorage.setItem("Description", value) : console.log('empty');
-  //   });
-  // });
-// if(description[0].value !==  ''){
-    //   localStorage.setItem("Description", description.val());
-    // } else {
-    //   console.log('empty');
-    // }
   // TODO: Add code to apply the past, present, or future class to each time
   // block by comparing the id to the current hour. HINTS: How can the id
   // attribute of each time-block be used to conditionally add or remove the
