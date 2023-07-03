@@ -120,27 +120,40 @@ let timeSection = $('.time-block');
   //
 timeSection.each(function(){
   //set testing current hour
-  let currentHour = 11;
   //get current id of timeSection
   const idOfTimeSection = $(this).attr('id');
   //uses match method to extract the number part of the id and converts it to a integer
-  const numericId = parseInt(idOfTimeSection.match(/\d+/)[0]);
+  const numericId = idOfTimeSection.match(/\d+/)[0];
+  const index = laborHours.indexOf(numericId);
    //if id < current hour
-   if(numericId < currentHour){
+   if(index < laborHours.indexOf(currentHour)){
    //then set class to past 
     // $(this).removeClass("past" || "present" || "future");
     $(this).addClass('past')
-   }else if(numericId > currentHour){
+   }else if(index > laborHours.indexOf(currentHour)){
     // $(this).removeClass("past" || "present" || "future");
     $(this).addClass('future')
    }else{
     // $(this).removeClass("past" || "present" || "future");
     $(this).addClass('present')
    }
-   //else if id > current hour 
-   //then set class to future
-   //else
-   //set class to current
+  
+//loop thorugh each block
+//compare the numericid to the array of laborHours to see index
+//if the laborHour index is = currentHour then set "current" class
+//based on the postion of the index set all other based on which side of the array it is.
+
+// if(numericId < currentHour){
+//   //then set class to past 
+//    // $(this).removeClass("past" || "present" || "future");
+//    $(this).addClass('past')
+//   }else if(numericId > currentHour){
+//    // $(this).removeClass("past" || "present" || "future");
+//    $(this).addClass('future')
+//   }else{
+//    // $(this).removeClass("past" || "present" || "future");
+//    $(this).addClass('present')
+//   }
 
 });
   // TODO: Add code to get any user input that was saved in localStorage and set
