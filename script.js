@@ -9,7 +9,9 @@ currentDayBox.text(currentDay.format("dddd, MMM DD h:mm a"));
 console.log(currentMeridiem);
 // .text("hi!");
 let divCounter = 0;
-
+const possibleMeridiems = ["9AM",'10AM','11AM','12PM','1PM','2PM','3PM','4PM','5PM'];
+const laborHours = ["9",'10','11','12','1','2','3','4','5'];
+let currentIndex = 0;
 $(function () {
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
@@ -54,11 +56,12 @@ $(function () {
     // btn.appendChild(saveIcon);
 
     // divContainer.appendChild(rowDiv);
+    for(var i =0; i<9; i++){
 const divContainer = $(".container-fluid");
 
-const rowDiv = $("<div>").attr("id", "hour-" + currentHour).addClass("row time-block");
+const rowDiv = $("<div>").attr("id", "hour-" + laborHours[currentIndex]).addClass("row time-block");
 
-const stylingDiv = $("<div>").addClass("col-2 col-md-1 hour text-center py-3").text(currentHour + currentMeridiem);
+const stylingDiv = $("<div>").addClass("col-2 col-md-1 hour text-center py-3").text(/*currentHour +*/ possibleMeridiems[currentIndex]);
 
 const textArea = $("<textarea>").addClass("col-8 col-md-10 description").attr("rows", "3");
 
@@ -70,11 +73,8 @@ btn.append(saveIcon);
 rowDiv.append(stylingDiv, textArea, btn);
 divContainer.append(rowDiv);
 
-
-  //loop to create divs based on hours a day
-  // for(var i =0; i<12; i++){
-
-  // }
+currentIndex++;
+}
 
   //add class to first div
   //append div to class container-fluid
