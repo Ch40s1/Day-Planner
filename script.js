@@ -67,17 +67,17 @@ $(function () {
 
     // divContainer.appendChild(rowDiv);
     for(var i =0; i<9; i++){
-const divContainer = $(".container-fluid");
+      const divContainer = $(".container-fluid");
 
-const rowDiv = $("<div>").attr("id", "hour-" + laborHours[currentIndex]).addClass("row time-block");
+      const rowDiv = $("<div>").attr("id", "hour-" + laborHours[currentIndex]).addClass("row time-block");
 
-const stylingDiv = $("<div>").addClass("col-2 col-md-1 hour text-center py-3").text(/*currentHour +*/ possibleMeridiems[currentIndex]);
+      const stylingDiv = $("<div>").addClass("col-2 col-md-1 hour text-center py-3").text(/*currentHour +*/ possibleMeridiems[currentIndex]);
 
-const textArea = $("<textarea>").addClass("col-8 col-md-10 description").attr("rows", "3");
+      const textArea = $("<textarea>").addClass("col-8 col-md-10 description").attr("rows", "3");
 
-const btn = $("<button>").addClass("btn saveBtn col-2 col-md-1").attr("aria-label", "save");
+      const btn = $("<button>").addClass("btn saveBtn col-2 col-md-1").attr("aria-label", "save");
 
-const saveIcon = $("<i>").addClass("fas fa-save").attr("aria-hidden", "true");
+      const saveIcon = $("<i>").addClass("fas fa-save").attr("aria-hidden", "true");
 
 btn.append(saveIcon);
 rowDiv.append(stylingDiv, textArea, btn);
