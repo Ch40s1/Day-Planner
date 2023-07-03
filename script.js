@@ -12,6 +12,16 @@ let divCounter = 0;
 const possibleMeridiems = ["9AM",'10AM','11AM','12PM','1PM','2PM','3PM','4PM','5PM'];
 const laborHours = ["9",'10','11','12','1','2','3','4','5'];
 let currentIndex = 0;
+function updateTime() {
+  let currentDay = dayjs();
+  currentDayBox.text(currentDay.format("dddd, MMM DD h:mm:ss a"));
+}
+
+// Update the time initially
+updateTime();
+
+// Update the time every second (1000 milliseconds)
+setInterval(updateTime, 1000);
 $(function () {
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
@@ -130,6 +140,7 @@ timeSection.each(function(){
    //then set class to past 
     // $(this).removeClass("past" || "present" || "future");
     $(this).addClass('past')
+    $(this).children('.btn').off('click').removeClass('saveBtn').addClass('pastSaveBtn');
    }else if(index > laborHours.indexOf(currentHour)){
     // $(this).removeClass("past" || "present" || "future");
     $(this).addClass('future')
