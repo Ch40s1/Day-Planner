@@ -5,9 +5,6 @@ let currentDayBox = $('#currentDay');
 let currentDay = dayjs();
 let currentHour = dayjs().format("h");
 
-//this is for testing new day
-// currentDayBox.text(currentDay.format("dddd, MMM DD h:mm a"));
-
 //array for all box names.
 const possibleMeridiems = ["9AM",'10AM','11AM','12PM','1PM','2PM','3PM','4PM','5PM'];
 //array for actual times. These get compared to determine past, current or future
@@ -101,6 +98,11 @@ timeSection.each(function(){
   const idOfTimeSection = $(this).attr('id');
   //uses match method to extract the number part of the id and converts it to a integer
   const numericId = idOfTimeSection.match(/\d+/)[0];
+// ////////////////////////////////////////////////////////////////////////////////////////////
+  // // Note: This is for testing purposes. Switches the current hour.
+  // currentHour = "10";
+// ////////////////////////////////////////////////////////////////////////////////////////////
+  // const numericId = idOfTimeSection."";
   const index = laborHours.indexOf(numericId);
    //if id < current hour
    if(index < laborHours.indexOf(currentHour)){
@@ -119,10 +121,10 @@ timeSection.each(function(){
    }
 
 });
-
+// ////////////////////////////////////////////////////////////////////////////////////////////
 // //Note: This code is to test the new day and should be kept to make sure that the new day is 
 // //atually reseting and local storage is clearing. 
-// // the code will not save when refreshing the page It is made to just make sure that the local 
+// // the text will not save when refreshing the page. It is made to just make sure that the local 
 // // storage is cleared.
 // ////////////////////////////////////////////////////////////////////////////////////////////
 //  // Test the new day functionality
