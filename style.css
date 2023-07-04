@@ -1,9 +1,14 @@
 body {
-  font-family: 'Open Sans', sans-serif;
+  /* font-family: 'Open Sans', sans-serif; */
+  /* font-family: 'Crimson Text', serif; */
+  /* font-family: 'Russo One', sans-serif; */
   font-size: 16px;
 }
 header > h1{
   display: flex;
+  font-family: 'Crimson Text', serif;
+  border-bottom: 5px solid black;
+
 }
 textarea {
   background: transparent;
@@ -11,9 +16,16 @@ textarea {
   resize: none;
   color: #000000;
   border-left: 1px solid black;
+  font-family: 'Roboto', sans-serif;
   padding: 10px;
 }
-
+.lead{
+  font-family: 'Roboto', sans-serif;
+}
+#currentDay{
+  font-size: 30px;
+  border-bottom: 2px solid black;
+}
 .description {
   white-space: pre-wrap;
 }
@@ -30,6 +42,7 @@ textarea {
   background-color: #ffffff;
   color: #000000;
   border-top: 1px dashed #000000;
+  font-family: 'Russo One', sans-serif;
 }
 
 .past {
@@ -64,6 +77,7 @@ longer available for the past hours
   border-bottom-right-radius: 15px;
   background-color: red;
   color: black;
+  cursor: not-allowed;
 }
 
 .saveBtn i:hover {
