@@ -1,95 +1,69 @@
-// Wrap all code that interacts with the DOM in a call to jQuery to ensure that
-// the code isn't run until the browser has finished rendering all the elements
-// in the html.
+
+$(function () {
+
 let currentDayBox = $('#currentDay');
 let currentDay = dayjs();
 let currentHour = dayjs().format("h");
-let currentMeridiem = dayjs().format('a');
-currentDayBox.text(currentDay.format("dddd, MMM DD h:mm a"));
-console.log(currentMeridiem);
-// .text("hi!");
-let divCounter = 0;
+
+//this is for testing new day
+// currentDayBox.text(currentDay.format("dddd, MMM DD h:mm a"));
+
+//array for all box names.
 const possibleMeridiems = ["9AM",'10AM','11AM','12PM','1PM','2PM','3PM','4PM','5PM'];
+//array for actual times. These get compared to determine past, current or future
 const laborHours = ["9",'10','11','12','1','2','3','4','5'];
+//index counter
 let currentIndex = 0;
+
+//automatically updates time
 function updateTime() {
-  let currentDay = dayjs();
-  currentDayBox.text(currentDay.format("dddd, MMM DD h:mm:ss a"));
+  let newDay = dayjs();
+  //checks to see if it is a new day
+  if (newDay.diff(currentDay, 'day') > 0){
+    //clears previous day local storage
+    localStorage.clear();
+    //checks in console if it succeeded
+    console.log('local storage cleared');
+    //reloads page
+    location.reload();
+  }else{
+    //is not then same day
+    currentDay = newDay;
+    //display current day time
+    currentDayBox.text(currentDay.format("dddd, MMM DD h:mm:ss a"));
+  }
 }
 
-// Update the time initially
-updateTime();
+  // Update the time initially
+  updateTime();
 
-// Update the time every second (1000 milliseconds)
-setInterval(updateTime, 1000);
-$(function () {
-  // TODO: Add a listener for click events on the save button. This code should
-  // use the id in the containing time-block as a key to save the user input in
-  // local storage. HINT: What does `this` reference in the click listener
-  // function? How can DOM traversal be used to get the "hour-x" id of the
-  // time-block containing the button that was clicked? How might the id be
-  // useful when saving the description in local storage?
-  /* Think of every problem as input and outputs
-    make pseudocode for problem
-    use docs to fill in pseudocode
-    test every line with console.log 
-    if messed up look up solutions
-    repeat */
-    // <div id="hour-9" class="row time-block">
-    //     <div class="col-2 col-md-1 hour text-center py-3">9AM</div>
-    //     <textarea class="col-8 col-md-10 description" rows="3" "> </textarea>
-    //     <button class="btn saveBtn col-2 col-md-1" aria-label="save"">
-    //       <i class="fas fa-save" aria-hidden="true"></i>
-    //     </button>
-    // </div>
-    // const divContainer = $(".container-fluid");
-    // const rowDiv = createElement('div');
-    // rowDiv.setAttribute("id","hour-" + currentHour);
-    // rowDiv.setAttribute('class', 'row time-block');
-    // const stylingDiv = createElement('div');
-    // stylingDiv.setAttribute('class', 'col-2 col-md-1 hour text-center py-3');
-    // stylingDiv.textContent = `${currentHour}${currentMeridiem}`;
-    // const textArea = createElement('textarea');
-    // textArea.setAttribute('col-8 col-md-10 description');
-    // textArea.setAttribute("rows", '3');
-    // const btn = createElement('button');
-    // btn.setAttribute('class', 'btn saveBtn col-2 col-md-1');
-    // btn.setAttribute('aria-label', 'save');
-    // const saveIcon = createElement('i');
-    // saveIcon.setAttribute('class', 'fas fa-save');
-    // saveIcon.setAttribute('aria-hidden', 'true');
+  // Update the time every second (1000 milliseconds)
+  setInterval(updateTime, 1000);
 
 
-    // rowDiv.appendChild(stylingDiv);
-    // rowDiv.appendChild(textArea);
-    // rowDiv.appendChild(btn);
-    // btn.appendChild(saveIcon);
+//loop creates the available hours. In this case it is the labor hours
+for(var i =0; i<9; i++){
+  //gets the div container to house divs
+  const divContainer = $(".container-fluid");
+  //creates a div with the hour that will get compared. ---> <div id="hour-9" class="row time-block">
+  const rowDiv = $("<div>").attr("id", "hour-" + laborHours[currentIndex]).addClass("row time-block");
+  //this houses the hour and meridiemto the left of the box ---> <div class="col-2 col-md-1 hour text-center py-3">9AM</div>
+  const stylingDiv = $("<div>").addClass("col-2 col-md-1 hour text-center py-3").text(/*currentHour +*/ possibleMeridiems[currentIndex]);
+  //where user writes text --->  <textarea class="col-8 col-md-10 description" rows="3"> </textarea>
+  const textArea = $("<textarea>").addClass("col-8 col-md-10 description").attr("rows", "3");
+  //this is save button ---> <button class="btn saveBtn col-2 col-md-1" aria-label="save">
+  const btn = $("<button>").addClass("btn saveBtn col-2 col-md-1").attr("aria-label", "save");
+  //this is the icon in the save button ---> <i class="fas fa-save" aria-hidden="true"></i>
+  const saveIcon = $("<i>").addClass("fas fa-save").attr("aria-hidden", "true");
 
-    // divContainer.appendChild(rowDiv);
-    for(var i =0; i<9; i++){
-      const divContainer = $(".container-fluid");
+  //combines all created elements
+  btn.append(saveIcon);
+  rowDiv.append(stylingDiv, textArea, btn);
+  divContainer.append(rowDiv);
 
-      const rowDiv = $("<div>").attr("id", "hour-" + laborHours[currentIndex]).addClass("row time-block");
-
-      const stylingDiv = $("<div>").addClass("col-2 col-md-1 hour text-center py-3").text(/*currentHour +*/ possibleMeridiems[currentIndex]);
-
-      const textArea = $("<textarea>").addClass("col-8 col-md-10 description").attr("rows", "3");
-
-      const btn = $("<button>").addClass("btn saveBtn col-2 col-md-1").attr("aria-label", "save");
-
-      const saveIcon = $("<i>").addClass("fas fa-save").attr("aria-hidden", "true");
-
-btn.append(saveIcon);
-rowDiv.append(stylingDiv, textArea, btn);
-divContainer.append(rowDiv);
-
-currentIndex++;
+  //index counter +1
+  currentIndex++;
 }
-
-  //add class to first div
-  //append div to class container-fluid
-
-
 
   // Select text box
 const userText = $('.description');
@@ -106,8 +80,6 @@ saveBtns.each(function() {
     const value = description.val();
     // Get the ID of the closest ancestor div
     const storageID = $(this).closest('div').prop('id');
-    console.log(storageID);
-
     // If value has text, set it in local storage
     value !== '' ? localStorage.setItem(storageID, value) : console.log('empty');
   });
@@ -123,13 +95,8 @@ userText.each(function () {
 
   // TODO: Add code to apply the past, present, or future class to each time
 let timeSection = $('.time-block');
-  // block by comparing the id to the current hour. HINTS: How can the id
-  // attribute of each time-block be used to conditionally add or remove the
-  // past, present, and future classes? How can Day.js be used to get the
-  // current hour in 24-hour time?
-  //
+  
 timeSection.each(function(){
-  //set testing current hour
   //get current id of timeSection
   const idOfTimeSection = $(this).attr('id');
   //uses match method to extract the number part of the id and converts it to a integer
@@ -138,38 +105,51 @@ timeSection.each(function(){
    //if id < current hour
    if(index < laborHours.indexOf(currentHour)){
    //then set class to past 
-    // $(this).removeClass("past" || "present" || "future");
     $(this).addClass('past')
     $(this).children('.btn').off('click').removeClass('saveBtn').addClass('pastSaveBtn');
+
+    //if index is less than the labor hours
    }else if(index > laborHours.indexOf(currentHour)){
-    // $(this).removeClass("past" || "present" || "future");
+    //set class to future
     $(this).addClass('future')
+
    }else{
-    // $(this).removeClass("past" || "present" || "future");
+    //else it is present
     $(this).addClass('present')
    }
-  
-//loop thorugh each block
-//compare the numericid to the array of laborHours to see index
-//if the laborHour index is = currentHour then set "current" class
-//based on the postion of the index set all other based on which side of the array it is.
-
-// if(numericId < currentHour){
-//   //then set class to past 
-//    // $(this).removeClass("past" || "present" || "future");
-//    $(this).addClass('past')
-//   }else if(numericId > currentHour){
-//    // $(this).removeClass("past" || "present" || "future");
-//    $(this).addClass('future')
-//   }else{
-//    // $(this).removeClass("past" || "present" || "future");
-//    $(this).addClass('present')
-//   }
 
 });
-  // TODO: Add code to get any user input that was saved in localStorage and set
-  // the values of the corresponding textarea elements. HINT: How can the id
-  // attribute of each time-block be used to do this?
-  //
-  // TODO: Add code to display the current date in the header of the page.
+
+// //Note: This code is to test the new day and should be kept to make sure that the new day is 
+// //atually reseting and local storage is clearing. 
+// // the code will not save when refreshing the page It is made to just make sure that the local 
+// // storage is cleared.
+// ////////////////////////////////////////////////////////////////////////////////////////////
+//  // Test the new day functionality
+//  function testNewDay() {
+//   //Clear local storage
+//   localStorage.clear();
+//   console.log("Local storage cleared");
+
+//   //Simulate a day change by adding 24 hours to the current time
+//   const simulatedNewDay = currentDay.add(24, 'hour');
+//   console.log("Simulated New Day: ", simulatedNewDay.format("dddd, MMM DD h:mm:ss a"));
+
+//   // Update the currentDay to the simulated new day
+//   currentDay = simulatedNewDay;
+
+//   // Call updateTime function to check if it detects the day change
+//   updateTime();
+
+//   // verify if local storage is cleared and the page is refreshed
+//   const storedValues = Object.values(localStorage);
+//   if (storedValues.length === 0) {
+//     console.log("Local storage cleared. Page reset on new day.");
+//   } else {
+//     console.log("Local storage still contains values. Page not reset on new day.");
+//   }
+// }
+
+// // Call the testNewDay function to simulate the day change and verify the functionality
+// testNewDay();
 });

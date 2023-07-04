@@ -54,6 +54,10 @@ textarea {
   background-color: #06aed5;
   color: white;
 }
+
+/* this is to simulate a button that is no 
+longer available for the past hours
+*/
 .pastSaveBtn {
   border-left: 1px solid black;
   border-top-right-radius: 15px;
