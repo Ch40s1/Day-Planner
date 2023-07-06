@@ -4,7 +4,6 @@ $(function () {
 let currentDayBox = $('#currentDay');
 let currentDay = dayjs();
 let currentHour = dayjs().format("h");
-
 //array for all box names.
 const possibleMeridiems = ["9AM",'10AM','11AM','12PM','1PM','2PM','3PM','4PM','5PM'];
 //array for actual times. These get compared to determine past, current or future
@@ -12,31 +11,25 @@ const laborHours = ["9",'10','11','12','1','2','3','4','5'];
 //index counter
 let currentIndex = 0;
 
+//button to clear storage
+let clearStorage = $('#storage-clear');
+clearStorage.click(function() {
+  localStorage.clear();
+  //reloads page after clear
+  location.reload();
+});
+
+
 //automatically updates time
 function updateTime() {
-  let newDay = dayjs();
-  //checks to see if it is a new day
-  if (newDay.diff(currentDay, 'day') > 0){
-    //clears previous day local storage
-    localStorage.clear();
-    //checks in console if it succeeded
-    console.log('local storage cleared');
-    //reloads page
-    location.reload();
-  }else{
-    //is not then same day
-    currentDay = newDay;
-    //display current day time
-    currentDayBox.text(currentDay.format("dddd, MMM DD h:mm:ss a"));
-  }
+  currentDay = dayjs();
+  currentDayBox.text(currentDay.format("dddd, MMM DD h:mm:ss a"));
 }
-
   // Update the time initially
   updateTime();
 
   // Update the time every second (1000 milliseconds)
   setInterval(updateTime, 1000);
-
 
 //loop creates the available hours. In this case it is the labor hours
 for(var i =0; i<9; i++){
@@ -121,37 +114,5 @@ timeSection.each(function(){
    }
 
 });
-// ////////////////////////////////////////////////////////////////////////////////////////////
-// //Note: This code is to test the new day and should be kept to make sure that the new day is 
-// //atually reseting and local storage is clearing. 
-// // the text will not save when refreshing the page. It is made to just make sure that the local 
-// // storage is cleared.
-// ////////////////////////////////////////////////////////////////////////////////////////////
-//  // Test the new day functionality
-//  function testNewDay() {
-//   //Clear local storage
-//   localStorage.clear();
-//   console.log("Local storage cleared");
 
-//   //Simulate a day change by adding 24 hours to the current time
-//   const simulatedNewDay = currentDay.add(24, 'hour');
-//   console.log("Simulated New Day: ", simulatedNewDay.format("dddd, MMM DD h:mm:ss a"));
-
-//   // Update the currentDay to the simulated new day
-//   currentDay = simulatedNewDay;
-
-//   // Call updateTime function to check if it detects the day change
-//   updateTime();
-
-//   // verify if local storage is cleared and the page is refreshed
-//   const storedValues = Object.values(localStorage);
-//   if (storedValues.length === 0) {
-//     console.log("Local storage cleared. Page reset on new day.");
-//   } else {
-//     console.log("Local storage still contains values. Page not reset on new day.");
-//   }
-// }
-
-// // Call the testNewDay function to simulate the day change and verify the functionality
-// testNewDay();
 });
