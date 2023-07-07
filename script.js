@@ -3,11 +3,10 @@ $(function () {
 
 let currentDayBox = $('#currentDay');
 let currentDay = dayjs();
-let currentHour = dayjs().format("h");
-//array for all box names.
-const possibleMeridiems = ["9AM",'10AM','11AM','12PM','1PM','2PM','3PM','4PM','5PM'];
+//this is hour plus the meridiem
+let currentHour = dayjs().format("hA");
 //array for actual times. These get compared to determine past, current or future
-const laborHours = ["9",'10','11','12','1','2','3','4','5'];
+const laborHours = ["9AM",'10AM','11AM','12PM','1PM','2PM','3PM','4PM','5PM'];
 //index counter
 let currentIndex = 0;
 
@@ -38,7 +37,7 @@ for(var i =0; i<9; i++){
   //creates a div with the hour that will get compared. ---> <div id="hour-9" class="row time-block">
   const rowDiv = $("<div>").attr("id", "hour-" + laborHours[currentIndex]).addClass("row time-block");
   //this houses the hour and meridiemto the left of the box ---> <div class="col-2 col-md-1 hour text-center py-3">9AM</div>
-  const stylingDiv = $("<div>").addClass("col-2 col-md-1 hour text-center py-3").text(/*currentHour +*/ possibleMeridiems[currentIndex]);
+  const stylingDiv = $("<div>").addClass("col-2 col-md-1 hour text-center py-3").text(/* currentHour */ laborHours[currentIndex]);
   //where user writes text --->  <textarea class="col-8 col-md-10 description" rows="3"> </textarea>
   const textArea = $("<textarea>").addClass("col-8 col-md-10 description").attr("rows", "3");
   //this is save button ---> <button class="btn saveBtn col-2 col-md-1" aria-label="save">
@@ -84,35 +83,46 @@ userText.each(function () {
 });
 
   // TODO: Add code to apply the past, present, or future class to each time
-let timeSection = $('.time-block');
+  let timeSection = $('.time-block');
   
-timeSection.each(function(){
-  //get current id of timeSection
-  const idOfTimeSection = $(this).attr('id');
-  //uses match method to extract the number part of the id and converts it to a integer
-  const numericId = idOfTimeSection.match(/\d+/)[0];
-// ////////////////////////////////////////////////////////////////////////////////////////////
-  // // Note: This is for testing purposes. Switches the current hour.
-  // currentHour = "10";
-// ////////////////////////////////////////////////////////////////////////////////////////////
-  // const numericId = idOfTimeSection."";
-  const index = laborHours.indexOf(numericId);
-   //if id < current hour
-   if(index < laborHours.indexOf(currentHour)){
-   //then set class to past 
-    $(this).addClass('past')
-    $(this).children('.btn').off('click').removeClass('saveBtn').addClass('pastSaveBtn');
+  timeSection.each(function(){
+    //get current id of timeSection
+    const idOfTimeSection = $(this).attr('id');
+    //uses match method to extract the number part of the id and am || pm
+    const matches = idOfTimeSection.match(/(\d+)(AM|PM)/);
+    const numericIdWithMeridiem = matches[1] + matches[2];
+  // ////////////////////////////////////////////////////////////////////////////////////////////
+    // // Note: This is for testing purposes. Switches the current hour.
+    // also we have to type the meridiem. So we need to uncomment this if it is past the time and we need
+    // to test it.
 
-    //if index is less than the labor hours
-   }else if(index > laborHours.indexOf(currentHour)){
-    //set class to future
-    $(this).addClass('future')
+    // currentHour = "2PM";
+  // ////////////////////////////////////////////////////////////////////////////////////////////
+  //checks to see of the current hour is in labor hours
+    if (laborHours.includes(currentHour)) {
+      const index = laborHours.indexOf(numericIdWithMeridiem);
+      //if the index is less than the current hour
+      if(index < laborHours.indexOf(currentHour)){
+      //then set class to past 
+        $(this).addClass('past')
+        $(this).children('.btn').off('click').removeClass('saveBtn').addClass('pastSaveBtn');
+    
+        //if index is greater than the labor hours
+      }else if(index > laborHours.indexOf(currentHour)){
+        //set class to future
+        $(this).addClass('future')
+    
+      }else{
+        //else it is present
+        $(this).addClass('present')
+      }
 
-   }else{
-    //else it is present
-    $(this).addClass('present')
-   }
+    // when the current hour is not within the labor hours then it sets all to past
+    } else{
+        $(this).addClass('past')
+        $(this).children('.btn').off('click').removeClass('saveBtn').addClass('pastSaveBtn');
+    }
+  });
 
-});
 
 });
